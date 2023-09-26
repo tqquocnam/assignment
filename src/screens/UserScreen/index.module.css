@@ -1,0 +1,15 @@
+.container {
+    padding: 12px 50px 24px;
+    background-color: #f9fafb;
+}
+
+.label {
+    padding: 0 6px;
+    color: #919EAB
+}
+.card {
+    padding: 16px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(33, 43, 54, 0.08);
+}

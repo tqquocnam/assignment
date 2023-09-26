@@ -1,11 +1,12 @@
 import { useRoutes } from "react-router-dom";
-import HomePage from "../screens/HomePage";
+import HomePage from "../screens/UserScreen";
+import Layouts from "../screens/Layout";
 
 const Router: React.FC = () => {
   const routeElements = useRoutes([
     {
       path: "/",
-      element: <HomePage />,
+      element: <Layouts />,
     },
   ]);
 
