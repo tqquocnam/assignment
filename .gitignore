@@ -1,0 +1,5 @@
+# dependencies
+/node_modules
+
+# force yarn
+package-lock.json
