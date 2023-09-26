@@ -1,0 +1,17 @@
+schema: [
+    {
+      'https://avocado.hasura.app/v1/graphql': {
+        headers: {
+          'x-hasura-admin-secret': 'jMOhNRW248jnx6I2gIYCRWHMCI2GcbEaT3CVNjiuJsWUgi0R3GgXs1x7UhEWdaZx',
+        },
+      },
+    },
+  ]
+documents:
+  - "./graphql/**/*.graphql"
+generates:
+  ./generated/graphql.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo

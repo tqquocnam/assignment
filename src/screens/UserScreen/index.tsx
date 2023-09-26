@@ -1,4 +1,3 @@
-import { PlusOutlined } from "@ant-design/icons";
 import {
   Button,
   Col,
@@ -15,6 +14,8 @@ import {
 } from "antd";
 import { useState } from "react";
 import styles from "./index.module.css";
+import { useQuery } from "@apollo/client";
+import { GetRaceYearDocument } from "../../../generated/graphql";
 
 interface Item {
   key: string;
@@ -77,6 +78,9 @@ const EditableCell: React.FC<EditableCellProps> = ({
 };
 
 const UserScreen: React.FC = () => {
+  const { data: getRaceYear } = useQuery(GetRaceYearDocument);
+  console.log(getRaceYear);
+
   const [form] = Form.useForm();
   const [data, setData] = useState(originData);
   const [editingKey, setEditingKey] = useState("");
@@ -198,7 +202,7 @@ const UserScreen: React.FC = () => {
         <Col>
           <Button style={{ float: "right" }} type="primary" size="middle">
             <Typography.Text style={{ fontWeight: 600, color: "#fff" }}>
-              CREATE NEW
+              ADD USER
             </Typography.Text>
           </Button>
         </Col>

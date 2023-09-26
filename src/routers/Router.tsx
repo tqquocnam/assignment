@@ -1,5 +1,5 @@
 import { useRoutes } from "react-router-dom";
-import HomePage from "../screens/UserScreen";
+import HomePage from "../screens/UserScreen/UserScreen";
 import Layouts from "../screens/Layout";
 
 const Router: React.FC = () => {
