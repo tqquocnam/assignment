@@ -13,12 +13,11 @@ import {
   Table,
   TablePaginationConfig,
   Typography,
-  message,
   notification,
 } from "antd";
 import { useState } from "react";
 import styles from "./index.module.css";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import {
   Customer_Bool_Exp,
   DeleteUserDocument,
@@ -151,16 +150,16 @@ const UserScreen: React.FC = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const isEditing = (record) => record.id === editingKey;
+  const isEditing = (record: any) => record.id === editingKey;
 
-  const edit = (record) => {
+  const edit = (record: any) => {
     form.setFieldsValue(record);
     setEditingKey(record.id);
   };
   const cancel = () => {
     setEditingKey("");
   };
-  const save = async (id) => {
+  const save = async (id: any) => {
     const row = await form.validateFields();
     updateUser({
       variables: {
@@ -216,7 +215,7 @@ const UserScreen: React.FC = () => {
     },
     {
       width: "10%",
-      render: (_: any, record) => {
+      render: (_: any, record: any) => {
         const editable = isEditing(record);
         return editable ? (
           <span>

@@ -2,12 +2,8 @@ import {
   EditOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  NotificationFilled,
-  NotificationOutlined,
   SettingOutlined,
-  UploadOutlined,
   UserOutlined,
-  VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme } from "antd";
 import { FC, useState } from "react";
