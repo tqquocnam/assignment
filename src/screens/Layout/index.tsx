@@ -1,17 +1,21 @@
 import {
+  EditOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  NotificationFilled,
+  NotificationOutlined,
+  SettingOutlined,
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme } from "antd";
-import { useState } from "react";
+import { FC, useState } from "react";
 import UserScreen from "../UserScreen";
 
 const { Header, Sider, Content } = Layout;
 
-const Layouts: React.FC = () => {
+const Layouts: FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
@@ -33,18 +37,18 @@ const Layouts: React.FC = () => {
             },
             {
               key: "2",
-              icon: <VideoCameraOutlined />,
-              label: "nav 2",
+              icon: <SettingOutlined />,
+              label: "Setting",
             },
             {
               key: "3",
-              icon: <UploadOutlined />,
-              label: "nav 3",
+              icon: <EditOutlined />,
+              label: "Todo",
             },
           ]}
         />
       </Sider>
-      <Layout>
+      <Layout hasSider>
         <Header style={{ padding: 0, background: colorBgContainer }}>
           <Button
             type="text"
@@ -59,9 +63,8 @@ const Layouts: React.FC = () => {
         </Header>
         <Content
           style={{
-            // margin: "24px 16px",
-            padding: "6px 24px",
-            minHeight: 280,
+            paddingTop: "64px",
+            height: "100vh",
             background: colorBgContainer,
           }}
         >

@@ -1,0 +1,48 @@
+query getCustomer($where: customer_bool_exp!, $limit: Int, $offset: Int) {
+  customer(
+    where: $where
+    limit: $limit
+    offset: $offset
+    order_by: { created_at: desc }
+  ) {
+    id
+    role
+    name
+    email
+    phone
+    username
+    password
+    created_at
+  }
+}
+query getRole {
+  role {
+    comment
+    value
+  }
+}
+
+mutation insertUser($object: customer_insert_input!) {
+  insert_customer_one(object: $object) {
+    id
+    username
+    password
+  }
+}
+
+mutation updateUser($id: Int!, $input: customer_set_input!) {
+  update_customer_by_pk(pk_columns: { id: $id }, _set: $input) {
+    id
+    username
+    password
+  }
+}
+
+mutation deleteUser($id: Int!) {
+  update_customer_by_pk(
+    pk_columns: { id: $id }
+    _set: { deleted_at: "now()" }
+  ) {
+    id
+  }
+}

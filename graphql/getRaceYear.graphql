@@ -1,5 +1,0 @@
-query getRaceYear {
-  race_year {
-    year
-  }
-}

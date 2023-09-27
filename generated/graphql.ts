@@ -16,6 +16,7 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   numeric: { input: any; output: any; }
+  timestamptz: { input: any; output: any; }
   uuid: { input: any; output: any; }
 };
 
@@ -76,16 +77,19 @@ export enum Cursor_Ordering {
 /** columns and relationships of "customer" */
 export type Customer = {
   __typename?: 'customer';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  deleted_at?: Maybe<Scalars['timestamptz']['output']>;
   email?: Maybe<Scalars['String']['output']>;
-  first_name?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   ip_address?: Maybe<Scalars['String']['output']>;
-  last_name?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
   /** An array relationship */
   orders: Array<Order>;
   /** An aggregate relationship */
   orders_aggregate: Order_Aggregate;
+  password?: Maybe<Scalars['String']['output']>;
   phone?: Maybe<Scalars['String']['output']>;
+  role?: Maybe<Role_Enum>;
   username?: Maybe<Scalars['String']['output']>;
 };
 
@@ -150,14 +154,17 @@ export type Customer_Bool_Exp = {
   _and?: InputMaybe<Array<Customer_Bool_Exp>>;
   _not?: InputMaybe<Customer_Bool_Exp>;
   _or?: InputMaybe<Array<Customer_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  deleted_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   email?: InputMaybe<String_Comparison_Exp>;
-  first_name?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
   ip_address?: InputMaybe<String_Comparison_Exp>;
-  last_name?: InputMaybe<String_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
   orders?: InputMaybe<Order_Bool_Exp>;
   orders_aggregate?: InputMaybe<Order_Aggregate_Bool_Exp>;
+  password?: InputMaybe<String_Comparison_Exp>;
   phone?: InputMaybe<String_Comparison_Exp>;
+  role?: InputMaybe<Role_Enum_Comparison_Exp>;
   username?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -174,24 +181,29 @@ export type Customer_Inc_Input = {
 
 /** input type for inserting data into table "customer" */
 export type Customer_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  deleted_at?: InputMaybe<Scalars['timestamptz']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
-  first_name?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
   ip_address?: InputMaybe<Scalars['String']['input']>;
-  last_name?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   orders?: InputMaybe<Order_Arr_Rel_Insert_Input>;
+  password?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Role_Enum>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Customer_Max_Fields = {
   __typename?: 'customer_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  deleted_at?: Maybe<Scalars['timestamptz']['output']>;
   email?: Maybe<Scalars['String']['output']>;
-  first_name?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['Int']['output']>;
   ip_address?: Maybe<Scalars['String']['output']>;
-  last_name?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  password?: Maybe<Scalars['String']['output']>;
   phone?: Maybe<Scalars['String']['output']>;
   username?: Maybe<Scalars['String']['output']>;
 };
@@ -199,11 +211,13 @@ export type Customer_Max_Fields = {
 /** aggregate min on columns */
 export type Customer_Min_Fields = {
   __typename?: 'customer_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  deleted_at?: Maybe<Scalars['timestamptz']['output']>;
   email?: Maybe<Scalars['String']['output']>;
-  first_name?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['Int']['output']>;
   ip_address?: Maybe<Scalars['String']['output']>;
-  last_name?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  password?: Maybe<Scalars['String']['output']>;
   phone?: Maybe<Scalars['String']['output']>;
   username?: Maybe<Scalars['String']['output']>;
 };
@@ -233,13 +247,16 @@ export type Customer_On_Conflict = {
 
 /** Ordering options when selecting data from "customer". */
 export type Customer_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  deleted_at?: InputMaybe<Order_By>;
   email?: InputMaybe<Order_By>;
-  first_name?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   ip_address?: InputMaybe<Order_By>;
-  last_name?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
   orders_aggregate?: InputMaybe<Order_Aggregate_Order_By>;
+  password?: InputMaybe<Order_By>;
   phone?: InputMaybe<Order_By>;
+  role?: InputMaybe<Order_By>;
   username?: InputMaybe<Order_By>;
 };
 
@@ -251,29 +268,38 @@ export type Customer_Pk_Columns_Input = {
 /** select columns of table "customer" */
 export enum Customer_Select_Column {
   /** column name */
-  Email = 'email',
+  CreatedAt = 'created_at',
   /** column name */
-  FirstName = 'first_name',
+  DeletedAt = 'deleted_at',
+  /** column name */
+  Email = 'email',
   /** column name */
   Id = 'id',
   /** column name */
   IpAddress = 'ip_address',
   /** column name */
-  LastName = 'last_name',
+  Name = 'name',
+  /** column name */
+  Password = 'password',
   /** column name */
   Phone = 'phone',
+  /** column name */
+  Role = 'role',
   /** column name */
   Username = 'username'
 }
 
 /** input type for updating data in table "customer" */
 export type Customer_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  deleted_at?: InputMaybe<Scalars['timestamptz']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
-  first_name?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
   ip_address?: InputMaybe<Scalars['String']['input']>;
-  last_name?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Role_Enum>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -305,12 +331,15 @@ export type Customer_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Customer_Stream_Cursor_Value_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  deleted_at?: InputMaybe<Scalars['timestamptz']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
-  first_name?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
   ip_address?: InputMaybe<Scalars['String']['input']>;
-  last_name?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Role_Enum>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -323,17 +352,23 @@ export type Customer_Sum_Fields = {
 /** update columns of table "customer" */
 export enum Customer_Update_Column {
   /** column name */
-  Email = 'email',
+  CreatedAt = 'created_at',
   /** column name */
-  FirstName = 'first_name',
+  DeletedAt = 'deleted_at',
+  /** column name */
+  Email = 'email',
   /** column name */
   Id = 'id',
   /** column name */
   IpAddress = 'ip_address',
   /** column name */
-  LastName = 'last_name',
+  Name = 'name',
+  /** column name */
+  Password = 'password',
   /** column name */
   Phone = 'phone',
+  /** column name */
+  Role = 'role',
   /** column name */
   Username = 'username'
 }
@@ -384,6 +419,10 @@ export type Mutation_Root = {
   delete_race_year?: Maybe<Race_Year_Mutation_Response>;
   /** delete single row from the table: "race_year" */
   delete_race_year_by_pk?: Maybe<Race_Year>;
+  /** delete data from the table: "role" */
+  delete_role?: Maybe<Role_Mutation_Response>;
+  /** delete single row from the table: "role" */
+  delete_role_by_pk?: Maybe<Role>;
   /** insert data into the table: "customer" */
   insert_customer?: Maybe<Customer_Mutation_Response>;
   /** insert a single row into the table: "customer" */
@@ -400,6 +439,10 @@ export type Mutation_Root = {
   insert_race_year?: Maybe<Race_Year_Mutation_Response>;
   /** insert a single row into the table: "race_year" */
   insert_race_year_one?: Maybe<Race_Year>;
+  /** insert data into the table: "role" */
+  insert_role?: Maybe<Role_Mutation_Response>;
+  /** insert a single row into the table: "role" */
+  insert_role_one?: Maybe<Role>;
   /** update data of the table: "customer" */
   update_customer?: Maybe<Customer_Mutation_Response>;
   /** update single row of the table: "customer" */
@@ -424,6 +467,12 @@ export type Mutation_Root = {
   update_race_year_by_pk?: Maybe<Race_Year>;
   /** update multiples rows of table: "race_year" */
   update_race_year_many?: Maybe<Array<Maybe<Race_Year_Mutation_Response>>>;
+  /** update data of the table: "role" */
+  update_role?: Maybe<Role_Mutation_Response>;
+  /** update single row of the table: "role" */
+  update_role_by_pk?: Maybe<Role>;
+  /** update multiples rows of table: "role" */
+  update_role_many?: Maybe<Array<Maybe<Role_Mutation_Response>>>;
 };
 
 
@@ -472,6 +521,18 @@ export type Mutation_RootDelete_Race_YearArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Race_Year_By_PkArgs = {
   id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_RoleArgs = {
+  where: Role_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Role_By_PkArgs = {
+  value: Scalars['String']['input'];
 };
 
 
@@ -528,6 +589,20 @@ export type Mutation_RootInsert_Race_YearArgs = {
 export type Mutation_RootInsert_Race_Year_OneArgs = {
   object: Race_Year_Insert_Input;
   on_conflict?: InputMaybe<Race_Year_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_RoleArgs = {
+  objects: Array<Role_Insert_Input>;
+  on_conflict?: InputMaybe<Role_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Role_OneArgs = {
+  object: Role_Insert_Input;
+  on_conflict?: InputMaybe<Role_On_Conflict>;
 };
 
 
@@ -616,6 +691,26 @@ export type Mutation_RootUpdate_Race_Year_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Race_Year_ManyArgs = {
   updates: Array<Race_Year_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_RoleArgs = {
+  _set?: InputMaybe<Role_Set_Input>;
+  where: Role_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Role_By_PkArgs = {
+  _set?: InputMaybe<Role_Set_Input>;
+  pk_columns: Role_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Role_ManyArgs = {
+  updates: Array<Role_Updates>;
 };
 
 /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
@@ -1047,6 +1142,12 @@ export type Query_Root = {
   race_year_aggregate: Race_Year_Aggregate;
   /** fetch data from the table: "race_year" using primary key columns */
   race_year_by_pk?: Maybe<Race_Year>;
+  /** fetch data from the table: "role" */
+  role: Array<Role>;
+  /** fetch aggregated fields from the table: "role" */
+  role_aggregate: Role_Aggregate;
+  /** fetch data from the table: "role" using primary key columns */
+  role_by_pk?: Maybe<Role>;
 };
 
 
@@ -1139,6 +1240,29 @@ export type Query_RootRace_Year_AggregateArgs = {
 
 export type Query_RootRace_Year_By_PkArgs = {
   id: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootRoleArgs = {
+  distinct_on?: InputMaybe<Array<Role_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Role_Order_By>>;
+  where?: InputMaybe<Role_Bool_Exp>;
+};
+
+
+export type Query_RootRole_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Role_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Role_Order_By>>;
+  where?: InputMaybe<Role_Bool_Exp>;
+};
+
+
+export type Query_RootRole_By_PkArgs = {
+  value: Scalars['String']['input'];
 };
 
 /** columns and relationships of "race_results" */
@@ -1749,6 +1873,160 @@ export type Race_Year_Variance_Fields = {
   year?: Maybe<Scalars['Float']['output']>;
 };
 
+/** columns and relationships of "role" */
+export type Role = {
+  __typename?: 'role';
+  comment: Scalars['String']['output'];
+  value: Scalars['String']['output'];
+};
+
+/** aggregated selection of "role" */
+export type Role_Aggregate = {
+  __typename?: 'role_aggregate';
+  aggregate?: Maybe<Role_Aggregate_Fields>;
+  nodes: Array<Role>;
+};
+
+/** aggregate fields of "role" */
+export type Role_Aggregate_Fields = {
+  __typename?: 'role_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Role_Max_Fields>;
+  min?: Maybe<Role_Min_Fields>;
+};
+
+
+/** aggregate fields of "role" */
+export type Role_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Role_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "role". All fields are combined with a logical 'AND'. */
+export type Role_Bool_Exp = {
+  _and?: InputMaybe<Array<Role_Bool_Exp>>;
+  _not?: InputMaybe<Role_Bool_Exp>;
+  _or?: InputMaybe<Array<Role_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "role" */
+export enum Role_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  RolePkey = 'role_pkey'
+}
+
+export enum Role_Enum {
+  /** ADMINISTRATOR */
+  Administrator = 'ADMINISTRATOR',
+  /** AUTHOR */
+  Author = 'AUTHOR',
+  /** CONTRIBUTOR */
+  Contributor = 'CONTRIBUTOR',
+  /** EDITOR */
+  Editor = 'EDITOR'
+}
+
+/** Boolean expression to compare columns of type "role_enum". All fields are combined with logical 'AND'. */
+export type Role_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Role_Enum>;
+  _in?: InputMaybe<Array<Role_Enum>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _neq?: InputMaybe<Role_Enum>;
+  _nin?: InputMaybe<Array<Role_Enum>>;
+};
+
+/** input type for inserting data into table "role" */
+export type Role_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Role_Max_Fields = {
+  __typename?: 'role_max_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Role_Min_Fields = {
+  __typename?: 'role_min_fields';
+  comment?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "role" */
+export type Role_Mutation_Response = {
+  __typename?: 'role_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Role>;
+};
+
+/** on_conflict condition type for table "role" */
+export type Role_On_Conflict = {
+  constraint: Role_Constraint;
+  update_columns?: Array<Role_Update_Column>;
+  where?: InputMaybe<Role_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "role". */
+export type Role_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: role */
+export type Role_Pk_Columns_Input = {
+  value: Scalars['String']['input'];
+};
+
+/** select columns of table "role" */
+export enum Role_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "role" */
+export type Role_Set_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "role" */
+export type Role_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Role_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Role_Stream_Cursor_Value_Input = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "role" */
+export enum Role_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value'
+}
+
+export type Role_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Role_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Role_Bool_Exp;
+};
+
 export type Subscription_Root = {
   __typename?: 'subscription_root';
   /** fetch data from the table: "customer" */
@@ -1783,6 +2061,14 @@ export type Subscription_Root = {
   race_year_by_pk?: Maybe<Race_Year>;
   /** fetch data from the table in a streaming manner: "race_year" */
   race_year_stream: Array<Race_Year>;
+  /** fetch data from the table: "role" */
+  role: Array<Role>;
+  /** fetch aggregated fields from the table: "role" */
+  role_aggregate: Role_Aggregate;
+  /** fetch data from the table: "role" using primary key columns */
+  role_by_pk?: Maybe<Role>;
+  /** fetch data from the table in a streaming manner: "role" */
+  role_stream: Array<Role>;
 };
 
 
@@ -1905,6 +2191,49 @@ export type Subscription_RootRace_Year_StreamArgs = {
   where?: InputMaybe<Race_Year_Bool_Exp>;
 };
 
+
+export type Subscription_RootRoleArgs = {
+  distinct_on?: InputMaybe<Array<Role_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Role_Order_By>>;
+  where?: InputMaybe<Role_Bool_Exp>;
+};
+
+
+export type Subscription_RootRole_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Role_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Role_Order_By>>;
+  where?: InputMaybe<Role_Bool_Exp>;
+};
+
+
+export type Subscription_RootRole_By_PkArgs = {
+  value: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootRole_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Role_Stream_Cursor_Input>>;
+  where?: InputMaybe<Role_Bool_Exp>;
+};
+
+/** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
+export type Timestamptz_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['timestamptz']['input']>;
+  _gt?: InputMaybe<Scalars['timestamptz']['input']>;
+  _gte?: InputMaybe<Scalars['timestamptz']['input']>;
+  _in?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['timestamptz']['input']>;
+  _lte?: InputMaybe<Scalars['timestamptz']['input']>;
+  _neq?: InputMaybe<Scalars['timestamptz']['input']>;
+  _nin?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
+};
+
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['uuid']['input']>;
@@ -1918,43 +2247,228 @@ export type Uuid_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['uuid']['input']>>;
 };
 
-export type GetRaceYearQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetCustomerQueryVariables = Exact<{
+  where: Customer_Bool_Exp;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+}>;
 
 
-export type GetRaceYearQuery = { __typename?: 'query_root', race_year: Array<{ __typename?: 'race_year', year: any }> };
+export type GetCustomerQuery = { __typename?: 'query_root', customer: Array<{ __typename?: 'customer', id: number, role?: Role_Enum | null, name?: string | null, email?: string | null, phone?: string | null, username?: string | null, password?: string | null, created_at?: any | null }> };
+
+export type GetRoleQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export const GetRaceYearDocument = gql`
-    query getRaceYear {
-  race_year {
-    year
+export type GetRoleQuery = { __typename?: 'query_root', role: Array<{ __typename?: 'role', comment: string, value: string }> };
+
+export type InsertUserMutationVariables = Exact<{
+  object: Customer_Insert_Input;
+}>;
+
+
+export type InsertUserMutation = { __typename?: 'mutation_root', insert_customer_one?: { __typename?: 'customer', id: number, username?: string | null, password?: string | null } | null };
+
+export type UpdateUserMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+  input: Customer_Set_Input;
+}>;
+
+
+export type UpdateUserMutation = { __typename?: 'mutation_root', update_customer_by_pk?: { __typename?: 'customer', id: number, username?: string | null, password?: string | null } | null };
+
+export type DeleteUserMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type DeleteUserMutation = { __typename?: 'mutation_root', update_customer_by_pk?: { __typename?: 'customer', id: number } | null };
+
+
+export const GetCustomerDocument = gql`
+    query getCustomer($where: customer_bool_exp!, $limit: Int, $offset: Int) {
+  customer(
+    where: $where
+    limit: $limit
+    offset: $offset
+    order_by: {created_at: desc}
+  ) {
+    id
+    role
+    name
+    email
+    phone
+    username
+    password
+    created_at
   }
 }
     `;
 
 /**
- * __useGetRaceYearQuery__
+ * __useGetCustomerQuery__
  *
- * To run a query within a React component, call `useGetRaceYearQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetRaceYearQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetCustomerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCustomerQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetRaceYearQuery({
+ * const { data, loading, error } = useGetCustomerQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *   },
+ * });
+ */
+export function useGetCustomerQuery(baseOptions: Apollo.QueryHookOptions<GetCustomerQuery, GetCustomerQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCustomerQuery, GetCustomerQueryVariables>(GetCustomerDocument, options);
+      }
+export function useGetCustomerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCustomerQuery, GetCustomerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCustomerQuery, GetCustomerQueryVariables>(GetCustomerDocument, options);
+        }
+export type GetCustomerQueryHookResult = ReturnType<typeof useGetCustomerQuery>;
+export type GetCustomerLazyQueryHookResult = ReturnType<typeof useGetCustomerLazyQuery>;
+export type GetCustomerQueryResult = Apollo.QueryResult<GetCustomerQuery, GetCustomerQueryVariables>;
+export const GetRoleDocument = gql`
+    query getRole {
+  role {
+    comment
+    value
+  }
+}
+    `;
+
+/**
+ * __useGetRoleQuery__
+ *
+ * To run a query within a React component, call `useGetRoleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRoleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRoleQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetRaceYearQuery(baseOptions?: Apollo.QueryHookOptions<GetRaceYearQuery, GetRaceYearQueryVariables>) {
+export function useGetRoleQuery(baseOptions?: Apollo.QueryHookOptions<GetRoleQuery, GetRoleQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetRaceYearQuery, GetRaceYearQueryVariables>(GetRaceYearDocument, options);
+        return Apollo.useQuery<GetRoleQuery, GetRoleQueryVariables>(GetRoleDocument, options);
       }
-export function useGetRaceYearLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRaceYearQuery, GetRaceYearQueryVariables>) {
+export function useGetRoleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRoleQuery, GetRoleQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetRaceYearQuery, GetRaceYearQueryVariables>(GetRaceYearDocument, options);
+          return Apollo.useLazyQuery<GetRoleQuery, GetRoleQueryVariables>(GetRoleDocument, options);
         }
-export type GetRaceYearQueryHookResult = ReturnType<typeof useGetRaceYearQuery>;
-export type GetRaceYearLazyQueryHookResult = ReturnType<typeof useGetRaceYearLazyQuery>;
-export type GetRaceYearQueryResult = Apollo.QueryResult<GetRaceYearQuery, GetRaceYearQueryVariables>;
+export type GetRoleQueryHookResult = ReturnType<typeof useGetRoleQuery>;
+export type GetRoleLazyQueryHookResult = ReturnType<typeof useGetRoleLazyQuery>;
+export type GetRoleQueryResult = Apollo.QueryResult<GetRoleQuery, GetRoleQueryVariables>;
+export const InsertUserDocument = gql`
+    mutation insertUser($object: customer_insert_input!) {
+  insert_customer_one(object: $object) {
+    id
+    username
+    password
+  }
+}
+    `;
+export type InsertUserMutationFn = Apollo.MutationFunction<InsertUserMutation, InsertUserMutationVariables>;
+
+/**
+ * __useInsertUserMutation__
+ *
+ * To run a mutation, you first call `useInsertUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [insertUserMutation, { data, loading, error }] = useInsertUserMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useInsertUserMutation(baseOptions?: Apollo.MutationHookOptions<InsertUserMutation, InsertUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InsertUserMutation, InsertUserMutationVariables>(InsertUserDocument, options);
+      }
+export type InsertUserMutationHookResult = ReturnType<typeof useInsertUserMutation>;
+export type InsertUserMutationResult = Apollo.MutationResult<InsertUserMutation>;
+export type InsertUserMutationOptions = Apollo.BaseMutationOptions<InsertUserMutation, InsertUserMutationVariables>;
+export const UpdateUserDocument = gql`
+    mutation updateUser($id: Int!, $input: customer_set_input!) {
+  update_customer_by_pk(pk_columns: {id: $id}, _set: $input) {
+    id
+    username
+    password
+  }
+}
+    `;
+export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
+
+/**
+ * __useUpdateUserMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserMutation, UpdateUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, options);
+      }
+export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
+export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
+export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
+export const DeleteUserDocument = gql`
+    mutation deleteUser($id: Int!) {
+  update_customer_by_pk(pk_columns: {id: $id}, _set: {deleted_at: "now()"}) {
+    id
+  }
+}
+    `;
+export type DeleteUserMutationFn = Apollo.MutationFunction<DeleteUserMutation, DeleteUserMutationVariables>;
+
+/**
+ * __useDeleteUserMutation__
+ *
+ * To run a mutation, you first call `useDeleteUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteUserMutation, { data, loading, error }] = useDeleteUserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteUserMutation(baseOptions?: Apollo.MutationHookOptions<DeleteUserMutation, DeleteUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteUserMutation, DeleteUserMutationVariables>(DeleteUserDocument, options);
+      }
+export type DeleteUserMutationHookResult = ReturnType<typeof useDeleteUserMutation>;
+export type DeleteUserMutationResult = Apollo.MutationResult<DeleteUserMutation>;
+export type DeleteUserMutationOptions = Apollo.BaseMutationOptions<DeleteUserMutation, DeleteUserMutationVariables>;
