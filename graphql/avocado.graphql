@@ -6,6 +6,7 @@ query getCustomer($where: customer_bool_exp!, $limit: Int, $offset: Int) {
     order_by: { created_at: desc }
   ) {
     id
+    code
     role
     name
     email
@@ -25,12 +26,14 @@ query getRole {
 mutation insertUser($object: customer_insert_input!) {
   insert_customer_one(object: $object) {
     id
+    code
+    name
     username
     password
   }
 }
 
-mutation updateUser($id: Int!, $input: customer_set_input!) {
+mutation updateUser($id: uuid!, $input: customer_set_input!) {
   update_customer_by_pk(pk_columns: { id: $id }, _set: $input) {
     id
     username
@@ -38,11 +41,8 @@ mutation updateUser($id: Int!, $input: customer_set_input!) {
   }
 }
 
-mutation deleteUser($id: Int!) {
-  update_customer_by_pk(
-    pk_columns: { id: $id }
-    _set: { deleted_at: "now()" }
-  ) {
+mutation deleteUser($id: uuid!) {
+  delete_customer_by_pk(id: $id) {
     id
   }
 }

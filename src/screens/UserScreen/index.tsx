@@ -4,7 +4,6 @@ import {
   Divider,
   Form,
   Input,
-  InputNumber,
   Modal,
   Popconfirm,
   Row,
@@ -30,7 +29,7 @@ import {
 import { useSearchParams } from "react-router-dom";
 import { debounce } from "lodash";
 import {
-  CheckCircleTwoTone,
+  CheckOutlined,
   CloseCircleTwoTone,
   DeleteTwoTone,
   EditTwoTone,
@@ -39,25 +38,22 @@ import {
 interface Item {
   key: string;
   name: string;
-  age: number;
-  address: string;
+  username: string;
+  password: string;
 }
 
 type FieldType = {
-  id?: number;
+  code?: number;
   name?: string;
   username?: string;
   password?: string;
-  phone?: number;
-  email?: string;
-  remember?: string;
 };
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
   dataIndex: string;
   title: any;
-  inputType: "number" | "text";
+  inputType: "text";
   record: Item;
   index: number;
   children: React.ReactNode;
@@ -73,8 +69,6 @@ const EditableCell: React.FC<EditableCellProps> = ({
   children,
   ...restProps
 }) => {
-  const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
-
   return (
     <td {...restProps}>
       {editing ? (
@@ -88,7 +82,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
             },
           ]}
         >
-          {inputNode}
+          <Input />
         </Form.Item>
       ) : (
         children
@@ -108,17 +102,20 @@ const UserScreen: React.FC = () => {
   const keyword = searchParams.get("keyword")?.trim();
   const selectRole = searchParams.get("role") ?? "ADMINISTRATOR";
 
-  let where: Customer_Bool_Exp = {
-    // deleted_at: { _is_null: true },
-  };
+  const [editingKey, setEditingKey] = useState("");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [form] = Form.useForm();
+
+  let where: Customer_Bool_Exp = {};
 
   if (keyword !== null) {
     where = {
       ...where,
       _or: [
-        { username: keyword !== "" ? { _ilike: `%${keyword}%` } : undefined },
         { name: keyword !== "" ? { _ilike: `%${keyword}%` } : undefined },
-        { phone: keyword !== "" ? { _ilike: `%${keyword}%` } : undefined },
+        { code: keyword !== "" ? { _ilike: `%${keyword}%` } : undefined },
       ],
     };
   }
@@ -138,17 +135,13 @@ const UserScreen: React.FC = () => {
   });
 
   const { data: getRoles } = useQuery(GetRoleDocument);
+
   const [insertDataUser] = useMutation(InsertUserDocument);
+
   const [updateUser] = useMutation(UpdateUserDocument);
-  const [deleteUser, { loading: loadingDelete }] = useMutation(
-    DeleteUserDocument,
-    { refetchQueries: ["getCustomer"] }
-  );
 
-  const [form] = Form.useForm();
-  const [editingKey, setEditingKey] = useState("");
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteUser, { loading: loadingDelete }] =
+    useMutation(DeleteUserDocument);
 
   const isEditing = (record: any) => record.id === editingKey;
 
@@ -166,10 +159,11 @@ const UserScreen: React.FC = () => {
         id,
         input: {
           name: row.name,
+          code: row.code,
+
           username: row.username,
           password: row.password,
           phone: row.phone,
-          email: row.email,
         },
       },
       onCompleted: () => {
@@ -185,9 +179,16 @@ const UserScreen: React.FC = () => {
 
   const columns = [
     {
+      key: "idx",
+      title: "No",
+      width: "5%",
+      render: (_: any, _r: any, idx: any) => (page - 1) * size + idx + 1,
+    },
+    {
       title: "ID",
-      dataIndex: "id",
+      dataIndex: "code",
       width: "10%",
+      editable: true,
     },
     {
       title: "Name",
@@ -214,6 +215,12 @@ const UserScreen: React.FC = () => {
       width: "10%",
     },
     {
+      title: "Created At",
+      dataIndex: "created_at",
+      width: "15%",
+      render: (value: any) => new Date(value).toLocaleDateString("en-US"),
+    },
+    {
       width: "10%",
       render: (_: any, record: any) => {
         const editable = isEditing(record);
@@ -223,7 +230,7 @@ const UserScreen: React.FC = () => {
               onClick={() => save(record.id)}
               style={{ marginRight: 8 }}
             >
-              <CheckCircleTwoTone />
+              <CheckOutlined />
             </Typography.Link>
             <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
               <CloseCircleTwoTone />
@@ -249,6 +256,7 @@ const UserScreen: React.FC = () => {
                         duration: 1,
                       });
                     },
+                    refetchQueries: ["getCustomer"],
                   })
                 }
                 okButtonProps={{
@@ -281,7 +289,7 @@ const UserScreen: React.FC = () => {
       ...col,
       onCell: (record: Item) => ({
         record,
-        inputType: col.dataIndex === "age" ? "number" : "text",
+        inputType: col.dataIndex,
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),
@@ -290,29 +298,28 @@ const UserScreen: React.FC = () => {
   });
 
   const onFinish = (values: any) => {
-    form.resetFields();
     insertDataUser({
       variables: {
         object: {
-          id: values.id,
+          code: values.code,
           name: values.name,
-          phone: values.phone,
           username: values.username,
           password: values.password,
-          email: values.email,
           role: values.role,
         },
       },
       onCompleted: () => {
         notification.success({
-          message: "Success",
+          message: "Successfully added user",
           duration: 1,
         });
       },
+
       refetchQueries: ["getCustomer"],
     });
+
+    form.resetFields();
     setIsModalOpen(false);
-    console.log(values);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -372,7 +379,7 @@ const UserScreen: React.FC = () => {
             <Input.Search
               size="large"
               allowClear
-              placeholder="Enter ID/ Name/ Email/ Phone number"
+              placeholder="Enter ID/ Name"
               style={{ width: 600 }}
               onChange={debounce((e) => {
                 setSearchParams((params) => {
@@ -415,7 +422,6 @@ const UserScreen: React.FC = () => {
                 cell: EditableCell,
               },
             }}
-            bordered
             dataSource={getDataCustomer?.customer}
             columns={mergedColumns}
             rowClassName="editable-row"
@@ -427,39 +433,54 @@ const UserScreen: React.FC = () => {
       <Modal
         title="Add User"
         open={isModalOpen}
-        onOk={onFinish}
         onCancel={() => setIsModalOpen(false)}
         footer={[]}
       >
         <Form
+          form={form}
           style={{ paddingTop: 18 }}
           name="basic"
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 18 }}
-          initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
-          <Form.Item<FieldType> label="ID" name="id">
+          <Form.Item<FieldType>
+            label="ID"
+            name="code"
+            rules={[{ required: true, message: "Please input your ID!" }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item<FieldType> label="Name" name="name">
+          <Form.Item<FieldType>
+            label="Name"
+            name="name"
+            rules={[{ required: true, message: "Please input your name!" }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item<FieldType> label="Email" name="email">
+
+          <Form.Item<FieldType>
+            label="Username"
+            name="username"
+            rules={[{ required: true, message: "Please input your username!" }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item<FieldType> label="Username" name="username">
-            <Input />
-          </Form.Item>
-          <Form.Item<FieldType> label="Password" name="password">
+          <Form.Item<FieldType>
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: "Please input your password!" }]}
+          >
             <Input.Password />
           </Form.Item>
-          <Form.Item<FieldType> label="Phone" name="phone">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Role" name="role">
+
+          <Form.Item
+            label="Role"
+            name="role"
+            rules={[{ required: true, message: "Please input your role!" }]}
+          >
             <Select
               options={getRoles?.role?.map((item: any) => ({
                 label: item.comment,
@@ -469,11 +490,7 @@ const UserScreen: React.FC = () => {
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 14, span: 16 }}>
             <Space>
-              <Button
-                type="link"
-                htmlType="submit"
-                onClick={() => setIsModalOpen(false)}
-              >
+              <Button type="link" onClick={() => setIsModalOpen(false)}>
                 Cancel
               </Button>
               <Button type="primary" htmlType="submit">
